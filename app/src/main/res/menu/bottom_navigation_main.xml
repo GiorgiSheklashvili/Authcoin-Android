@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_identity"
+        android:title="@string/identity"
+        android:icon="@drawable/user_icon"/>
+    <item
+        android:id="@+id/action_challenges"
+        android:title="@string/challenges"
+        android:icon="@drawable/challenge_icon"/>
+</menu>

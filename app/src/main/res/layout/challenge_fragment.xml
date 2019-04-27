@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.fragment.IdentityFragment">
+
+    <RelativeLayout android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="start"
+                    android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/iv_eir"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_person_24dp"/>
+
+        <Spinner
+            android:id="@+id/s_eir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/iv_wallet_copy"
+            android:layout_marginLeft="48dp"
+            android:gravity="center_vertical"
+            android:spinnerMode="dialog"
+            android:backgroundTint="@color/colorWhite"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_challenges"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_new_challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:rippleColor="#ffffff"
+        android:src="@drawable/ic_send_24dp"/>
+
+</RelativeLayout>

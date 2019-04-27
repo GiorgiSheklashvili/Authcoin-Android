@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.fragment.NewChallengeFragment"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/tv_create_new_challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:textSize="24sp"
+        android:text="@string/new_challenge"/>
+
+    <TextView
+        android:id="@+id/tv_create_new_challenge_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_create_new_challenge"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center_horizontal"
+        android:text="@string/new_challenge_desc"/>
+
+    <TextView
+        android:id="@+id/label_eir_verifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_create_new_challenge_desc"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:textSize="12sp"
+        android:text="@string/your_identity"/>
+
+    <Spinner
+        android:id="@+id/s_eir_verifier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_eir_verifier"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:spinnerMode="dialog"
+        android:prompt="@string/your_identity"/>
+
+    <TextView
+        android:id="@+id/label_challenge_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/s_eir_verifier"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:textSize="12sp"
+        android:text="@string/challenge_type"/>
+
+    <Spinner
+        android:id="@+id/s_challenge_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_challenge_type"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:spinnerMode="dialog"
+        android:prompt="@string/challenge_type"/>
+
+    <android.support.design.widget.TextInputLayout android:id="@+id/inputWrapper"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:layout_below="@id/s_challenge_type"
+                                                   android:layout_marginLeft="24dp"
+                                                   android:layout_marginRight="24dp"
+                                                   android:paddingTop="16dp">
+        <EditText
+            android:id="@+id/et_eir_target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/challenge_target"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_send_challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputWrapper"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/send_challenge"/>
+
+</RelativeLayout>

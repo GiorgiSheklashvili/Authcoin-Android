@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.fragment.NewIdentityFragment"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/tv_create_new_identity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:textSize="24sp"
+        android:text="@string/new_identity"/>
+    <TextView
+        android:id="@+id/tv_create_new_identity_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_create_new_identity"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal"
+        android:text="@string/new_identity_desc"/>
+
+    <android.support.design.widget.TextInputLayout android:id="@+id/aliasWrapper"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:layout_below="@id/tv_create_new_identity_desc"
+                                                   android:layout_marginTop="16dp">
+        <EditText
+            android:id="@+id/et_alias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:inputType="text"
+            android:maxLength="32"
+            android:hint="@string/alias"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:id="@+id/identifiers_wrapper"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/aliasWrapper"
+                  android:layout_marginTop="16dp"
+                  android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_add_identifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:text="@string/add_identifier"/>
+
+        <android.support.design.widget.TextInputLayout android:id="@+id/identifier_1"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:layout_marginTop="16dp">
+            <EditText
+                android:id="@+id/et_identifier_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:inputType="text"
+                android:maxLength="32"
+                android:hint="@string/first_identifier"/>
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add_identity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/identifiers_wrapper"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/submit_identity"/>
+
+</RelativeLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.authcoinandroid">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name=".ui.AuthCoinApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/authcoin_ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/authcoin_ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.activity.StartupActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.AuthenticationActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <data android:scheme="authcoin" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.CreatePinActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.activity.UnlockWithPinActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.WelcomeActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <service android:name=".jobs.EirUpdater"
+                 android:permission="android.permission.BIND_JOB_SERVICE" />
+    </application>
+
+</manifest>

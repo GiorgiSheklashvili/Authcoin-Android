@@ -1,0 +1,163 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                tools:context=".ui.fragment.authentication.AuthenticationSuccessfulFragment">
+
+    <TextView
+        android:id="@+id/tv_auth_successful"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll_for_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:textSize="24sp"
+        android:textColor="@color/textColorSuccess"
+        android:text="Authentication successful"/>
+
+    <LinearLayout
+        android:id="@+id/ll_for_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_at_url"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <TextView
+            android:id="@+id/tv_for"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:textColor="@color/textColorSecondary"
+            android:text="for: "/>
+
+        <TextView
+            android:id="@+id/tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:textStyle="bold"
+            android:textColor="@color/textColorSecondary"
+            android:text="Application name"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_at_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_target_wrapper"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <TextView
+            android:id="@+id/tv_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:textColor="@color/textColorSecondary"
+            android:text="at: "/>
+
+        <TextView
+            android:id="@+id/tv_app_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:textColor="@color/textColorSecondary"
+            android:text="Application URL"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_target_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_target_label_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:id="@+id/tv_target_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/textColorSecondary"
+                android:text="Target CR"/>
+
+            <ImageView
+                android:id="@+id/iv_target_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/ic_content_copy_24dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_target"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/tv_target_label"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="Target"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_verifier_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_target_wrapper"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_verifier_label_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:id="@+id/tv_verifier_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/textColorSecondary"
+                android:text="Verifier CR"/>
+
+            <ImageView
+                android:id="@+id/iv_verifier_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/ic_content_copy_24dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_verifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="Verifier"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

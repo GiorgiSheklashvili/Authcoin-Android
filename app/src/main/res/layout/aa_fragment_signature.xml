@@ -1,0 +1,133 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                tools:context=".ui.fragment.authentication.SignatureFragment">
+
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_app_url"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimary"
+        android:text="Application name"/>
+
+    <TextView
+        android:id="@+id/tv_app_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/textColorSecondary"
+        android:text="Application URL"/>
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_challenge_response"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="48dp"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:text="@string/has_responded_with"/>
+
+    <TextView
+        android:id="@+id/tv_challenge_response"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_valid_signature"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="Challenge response"/>
+
+    <TextView
+        android:id="@+id/tv_valid_signature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:text="isValid"/>
+
+    <TextView
+        android:id="@+id/tv_enter_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_valid_signature"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center_horizontal"
+        android:labelFor="@id/et_lifespan"
+        android:textSize="16sp"
+        android:text="Enter the amount of days you wish to trust this application:"/>
+
+    <EditText
+        android:id="@+id/et_lifespan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_enter_days"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:inputType="numberSigned"
+        android:ems="4"
+        android:text="365"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/buttons"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="bottom"
+                  android:layout_alignParentBottom="true"
+                  android:focusable="true"
+                  android:focusableInTouchMode="true"
+                  tools:context=".ui.activity.AuthenticationActivity">
+
+        <Button
+            style="?android:attr/buttonBarNegativeButtonStyle"
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/textColorSecondary"
+            android:text="@string/invalid_response"/>
+
+        <Button
+            style="?android:attr/buttonBarPositiveButtonStyle"
+            android:id="@+id/sign_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:text="@string/sign_response"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
