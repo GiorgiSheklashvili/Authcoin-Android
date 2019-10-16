@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -144,6 +146,7 @@ public class IdentityFragment extends Fragment {
                         @Override
                         public void onError(Throwable e) {
                             if (isAdded()) {
+                                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_LONG).show();
                                 unspentOutput.setText(getString(R.string.missing_value));
                             }
                         }
