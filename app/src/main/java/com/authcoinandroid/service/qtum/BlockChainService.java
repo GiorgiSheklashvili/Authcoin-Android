@@ -25,7 +25,7 @@ public class BlockChainService implements BlockChainApi {
 
     private BlockChainService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.110:7545/")
+                .baseUrl(AuthCoinNetParams.getUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
@@ -34,11 +34,17 @@ public class BlockChainService implements BlockChainApi {
 
     @Override
     public Observable<ContractResponse> callContract(String contractAddress, ContractRequest contractRequest) {
+        Log.d("BSerContractAddress", contractAddress);
+        for (int i=0; i<contractRequest.getHashes().length; i++){
+            Log.d("BSerContractRequest", contractRequest.getHashes()[i]);
+        }
         return blockChainApi.callContract(contractAddress, contractRequest);
     }
 
     @Override
     public Observable<SendRawTransactionResponse> sendRawTransaction(SendRawTransactionRequest sendRawTransactionRequest) {
+        Log.d("BSSndRwTrnsctnDt", sendRawTransactionRequest.getData());
+        Log.d("BSSndRwTrnsctnhighFee", sendRawTransactionRequest.getAllowHighFee().toString());
         return blockChainApi.sendRawTransaction(sendRawTransactionRequest);
     }
 
@@ -49,6 +55,7 @@ public class BlockChainService implements BlockChainApi {
 
     @Override
     public Observable<Transaction> getTransaction(String transaction) {
+        Log.d("BSerTransaction", transaction);
         return blockChainApi.getTransaction(transaction);
     }
 }

@@ -1,5 +1,7 @@
 package com.authcoinandroid.service.contract;
 
+import android.util.Log;
+
 import com.authcoinandroid.exception.GetEirException;
 import com.authcoinandroid.service.qtum.BlockChainService;
 import com.authcoinandroid.service.qtum.model.*;
@@ -11,6 +13,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.generated.Bytes32;
 
+import java.util.Collections;
 import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
@@ -80,10 +83,15 @@ public class AuthcoinContractService {
     }
 
     public Observable<List<UnspentOutput>> getUnspentOutputs(DeterministicKey key) {//private key?
+        for (int i=0; i<singletonList(key.toAddress(QtumTestNetParams.get()).toBase58()).size(); i++){
+            Log.d("ACSerUnspent", singletonList(key.toAddress(QtumTestNetParams.get()).toBase58()).get(i));
+        }
         return blockChainService.getUnspentOutput(singletonList(key.toAddress(QtumTestNetParams.get()).toBase58()));
+
     }
 
     public Observable<Transaction> getTransaction(String transaction) {
+        Log.d("getTransaction", transaction);
         return blockChainService.getTransaction(transaction);
     }
 
@@ -100,6 +108,7 @@ public class AuthcoinContractService {
     }
 
     private Observable<SendRawTransactionResponse> sendRawTransaction(DeterministicKey key, Script script) {
+        Log.d("BSSndRwTrnsctnDt", "todo");
         return getUnspentOutputs(key).switchMap(
                 unspentOutput -> blockChainService.sendRawTransaction(
                         new SendRawTransactionRequest(resolveTransaction(key, script, unspentOutput), 1)
@@ -111,6 +120,10 @@ public class AuthcoinContractService {
     }
 
     private Observable<ContractResponse> callContract(String contractAddress, ContractRequest contractRequest) {
+        Log.d("ACSerContractAddress", contractAddress);
+        for (int i=0; i<contractRequest.getHashes().length; i++){
+            Log.d("ACSerContractRequest", contractRequest.getHashes()[i]);
+        }
         return blockChainService.callContract(contractAddress, contractRequest);
     }
 }
