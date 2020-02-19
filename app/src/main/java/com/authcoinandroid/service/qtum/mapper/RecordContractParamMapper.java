@@ -86,8 +86,8 @@ public class RecordContractParamMapper {
                 });
         List<Type> output = FunctionReturnDecoder.decode(abiReturn, convert(outputParameters));
         // TODO check if blockchain EIR and EIR in db match
-        EntityIdentityRecord eir = new EntityIdentityRecord();
-        eir.setPublicKey(toPublicKey(removeNullBytes((byte[]) output.get(2).getValue())));
+        EntityIdentityRecord eir = new EntityIdentityRecord(toPublicKey(removeNullBytes((byte[]) output.get(2).getValue())));
+//        eir.setPublicKey();
         eir.setContent(removeNullBytes((byte[]) output.get(2).getValue()));
         eir.setId(Hex.decode(cleanHexPrefix(Hash.sha3(Hex.toHexString(eir.getContent())))));
         eir.setContentType(new String(removeNullBytes((byte[]) output.get(3).getValue()), StandardCharsets.UTF_8));
