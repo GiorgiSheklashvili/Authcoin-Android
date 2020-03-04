@@ -1,5 +1,6 @@
 package com.authcoinandroid.module;
 
+import android.content.Context;
 import android.util.Pair;
 import com.authcoinandroid.model.ChallengeRecord;
 import com.authcoinandroid.model.ChallengeResponseRecord;
@@ -45,7 +46,7 @@ public class ValidationAndAuthenticationProcessingModule extends AbstractModule 
             Pair<ChallengeResponseRecord, ChallengeResponseRecord>,
             Pair<SignatureRecord, SignatureRecord>> process(
             EntityIdentityRecord target,
-            EntityIdentityRecord verifier) {
+            EntityIdentityRecord verifier, Context context) {
 
         // 1. prepare verifier and target for processing. generate VAE id.
         notNull(target, "Target EIR");
@@ -64,7 +65,7 @@ public class ValidationAndAuthenticationProcessingModule extends AbstractModule 
         }
 
         // 3. VA module
-        return vaModule.process(vae);
+        return vaModule.process(vae, context);
     }
 
 }

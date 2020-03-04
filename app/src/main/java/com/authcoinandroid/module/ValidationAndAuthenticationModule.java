@@ -42,7 +42,7 @@ class ValidationAndAuthenticationModule {
             Pair<ChallengeResponseRecord, ChallengeResponseRecord>,
             Pair<SignatureRecord, SignatureRecord>> process(
             // VAE_ID, verifier EIR, target EIR
-            Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae, Context context, String AuthenticationType) {
+            Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae, Context context) {
 
         // 1. create and send challenge to target
         // the first parameter is target's CR; the second parameter is verifier's CR
