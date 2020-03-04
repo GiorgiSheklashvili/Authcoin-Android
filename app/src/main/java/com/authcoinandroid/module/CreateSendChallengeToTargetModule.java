@@ -1,5 +1,6 @@
 package com.authcoinandroid.module;
 
+import android.content.Context;
 import android.util.Pair;
 import com.authcoinandroid.model.ChallengeRecord;
 import com.authcoinandroid.model.EntityIdentityRecord;
@@ -27,9 +28,9 @@ class CreateSendChallengeToTargetModule {
         this.challengeSender = new SendChallengeToTarget(transporter);
     }
 
-    public Pair<ChallengeRecord, ChallengeRecord> process(Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae) {
+    public Pair<ChallengeRecord, ChallengeRecord> process(Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae, Context context) {
         // 1. create challenge
-        ChallengeRecord crForTarget = challengeCreator.create(vae);
+        ChallengeRecord crForTarget = challengeCreator.create(vae, context);
         // 2. send challenge
         ChallengeRecord crForVerifier = challengeSender.send(crForTarget);
         // NB! In CPN modules only target challenge record is returned.
@@ -50,16 +51,16 @@ class CreateSendChallengeToTargetModule {
             this.messageHandler = messageHandler;
         }
 
-        public ChallengeRecord create(Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae) {
+        public ChallengeRecord create(Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae, Context context) {
             // Communication with UI.  Challenge Type
             RequestChallengeTypeMessage req = new RequestChallengeTypeMessage();
             ChallengeTypeMessageResponse resp =
                     (ChallengeTypeMessageResponse) messageHandler.sendAndWaitResponse(req, 1);
 
             //  1. create challenge
-            Challenge challenge = Challenges.get(resp.getChallengeType());
+            Challenge challenge = Challenges.get("Sign Content");//resp.getChallengeType()
             byte[] crId = Util.generateId();
-            return new ChallengeRecord(crId, vae.getFirst(), challenge.getType(), challenge.getContent(), vae.getSecond(), vae.getThird());
+            return new ChallengeRecord(crId, vae.getFirst(), challenge.getType(), challenge.getContent(context), vae.getSecond(), vae.getThird());
         }
     }
 

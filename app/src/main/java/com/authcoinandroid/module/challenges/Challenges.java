@@ -1,5 +1,10 @@
 package com.authcoinandroid.module.challenges;
 
+import android.content.Context;
+
+import com.authcoinandroid.module.challenges.faceRecognition.SigningImageChallengeExecutor;
+import com.authcoinandroid.module.challenges.faceRecognition.SigningImageChallengeFactory;
+import com.authcoinandroid.module.challenges.faceRecognition.SigningImageChallengeVerifier;
 import com.authcoinandroid.module.challenges.signing.SigningChallengeExecutor;
 import com.authcoinandroid.module.challenges.signing.SigningChallengeFactory;
 import com.authcoinandroid.module.challenges.signing.SigningChallengeVerifier;
@@ -17,7 +22,6 @@ public final class Challenges {
 
     private static Map<String, Triplet<ChallengeFactory, ChallengeExecutor, ChallengeVerifier>> factories = new HashMap<>();
 
-
     static {
         factories.put(
                 ChallengeType.SIGN_CONTENT.getValue(),
@@ -28,6 +32,15 @@ public final class Challenges {
                 )
 
         );
+        factories.put(
+                ChallengeType.MFA_SIGN_CONTENT_AND_FACIAL_RECOGNITION.getValue(),
+                new Triplet<>(
+                        new SigningImageChallengeFactory(),
+                        new SigningImageChallengeExecutor(),
+                        new SigningImageChallengeVerifier()
+                )
+
+        );
         // TODO add more challenges :)
 
     }
@@ -35,7 +48,6 @@ public final class Challenges {
     private Challenges() {
         // Singleton
     }
-
     public static Set<String> getAllTypes() {
         return factories.keySet();
     }

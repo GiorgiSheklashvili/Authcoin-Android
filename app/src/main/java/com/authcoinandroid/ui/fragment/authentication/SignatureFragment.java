@@ -1,5 +1,7 @@
 package com.authcoinandroid.ui.fragment.authentication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,8 @@ public class SignatureFragment extends Fragment {
     private TextView applicationUrl;
     private EditText lifespan;
     private TextView validSignature;
+    private TextView textViewDays;
+    private String challengeType;
     private Button signButton;
 
     @Override
@@ -38,11 +42,16 @@ public class SignatureFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        challengeType = getArguments().getString("challengeType");
         View view = inflater.inflate(R.layout.aa_fragment_signature, container, false);
         ButterKnife.bind(this, view);
 
         lifespan = (EditText) view.findViewById(R.id.et_lifespan);
-
+        textViewDays = (TextView) view.findViewById(R.id.tv_enter_days);
+        if(challengeType.equals("MFA Sign Content & Facial recognition")){
+            lifespan.setVisibility(View.INVISIBLE);
+            textViewDays.setVisibility(View.INVISIBLE);
+        }
         ChallengeRecord challengeRecord = challengeResponse.getChallenge();
         EntityIdentityRecord targetEir = challengeRecord.getTarget();
         boolean isValid = Challenges.getVerifier(challengeRecord.getType()).verify(targetEir, challengeRecord.getChallenge(), challengeResponse.getResponse());

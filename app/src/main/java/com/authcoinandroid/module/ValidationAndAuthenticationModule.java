@@ -1,5 +1,6 @@
 package com.authcoinandroid.module;
 
+import android.content.Context;
 import android.util.Pair;
 import com.authcoinandroid.model.ChallengeRecord;
 import com.authcoinandroid.model.ChallengeResponseRecord;
@@ -17,6 +18,7 @@ class ValidationAndAuthenticationModule {
 
     private CreateSendChallengeToTargetModule createAndSendChallengeModule;
     private CreateSendResponsesModule createSendResponsesModule;
+    private CreateSendImageResponsesModule createSendImageResponsesModule;
     private CreateSignaturesModule createSignatureModule;
     private ChallengeService challengeService;
     private PostCRsAndRRsToBlockchainModule postCrAndRrModule;
@@ -30,6 +32,7 @@ class ValidationAndAuthenticationModule {
         this.challengeService = challengeService;
         this.createAndSendChallengeModule = new CreateSendChallengeToTargetModule(messageHandler, transporter);
         this.createSendResponsesModule = new CreateSendResponsesModule(transporter, messageHandler);
+        this.createSendImageResponsesModule = new CreateSendImageResponsesModule(transporter, messageHandler);
         this.createSignatureModule = new CreateSignaturesModule(messageHandler, transporter, challengeService, walletService);
         this.postCrAndRrModule = new PostCRsAndRRsToBlockchainModule(challengeService, walletService);
     }
@@ -39,11 +42,11 @@ class ValidationAndAuthenticationModule {
             Pair<ChallengeResponseRecord, ChallengeResponseRecord>,
             Pair<SignatureRecord, SignatureRecord>> process(
             // VAE_ID, verifier EIR, target EIR
-            Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae) {
+            Triplet<byte[], EntityIdentityRecord, EntityIdentityRecord> vae, Context context, String AuthenticationType) {
 
         // 1. create and send challenge to target
         // the first parameter is target's CR; the second parameter is verifier's CR
-        Pair<ChallengeRecord, ChallengeRecord> challenges = createAndSendChallengeModule.process(vae);
+        Pair<ChallengeRecord, ChallengeRecord> challenges = createAndSendChallengeModule.process(vae,context);
         challengeService.registerChallenge(challenges.first).blockingGet();
         challengeService.registerChallenge(challenges.second).blockingGet();
         // 2. create challenge to verifier
@@ -60,6 +63,16 @@ class ValidationAndAuthenticationModule {
 
         // 5. CreateAndPostSignatures
         Pair<SignatureRecord, SignatureRecord> signatures = createSignatureModule.process(responses.first);
+
+        Pair<ChallengeResponseRecord, ChallengeResponseRecord> imageResponses = createSendImageResponsesModule.process(challenges);
+        challengeService.registerChallengeResponse(imageResponses.first.getChallenge().getId(), imageResponses.first).blockingGet();
+        challengeService.registerChallengeResponse(imageResponses.second.getChallenge().getId(), imageResponses.second).blockingGet();
+
+        // 4. PostCRAndRRsToBlockchain
+        postCrAndRrModule.post(challenges, imageResponses);
+
+        // 5. CreateAndPostSignatures
+        Pair<SignatureRecord, SignatureRecord> imageSignatures = createSignatureModule.process(imageResponses.first);
 
 //         challengeService.registerSignatureRecord(signatures.first.getChallengeResponse().getChallenge().getId(), signatures.first).blockingGet();
 //         challengeService.registerSignatureRecord(signatures.second.getChallengeResponse().getChallenge().getId(), signatures.second).blockingGet();

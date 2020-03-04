@@ -2,6 +2,8 @@ package com.authcoinandroid.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Camera;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.*;
@@ -28,7 +30,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private Handler mainThreadHandler;
     private Handler vaThreadHandler;
-
+    private String challengeType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                                 target,
                                 transport,
                                 challengeService,
-                                ((AuthCoinApplication) getApplication()).getWalletService()
+                                ((AuthCoinApplication) getApplication()).getWalletService(),
+                                getApplicationContext()
                         )
                 );
             }).start();
@@ -93,6 +96,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                                     synchronized (VAProcessRunnable.lock) {
                                         VAProcessRunnable.queue.add(new ChallengeTypeMessageResponse(selectionFragment.getSelectedChallenge()));
                                         VAProcessRunnable.lock.notify();
+                                        challengeType = selectionFragment.getSelectedChallenge();
                                     }
                                 }
                         );
@@ -116,6 +120,34 @@ public class AuthenticationActivity extends AppCompatActivity {
                         break;
                     case 3:
                         SignatureFragment signatureFragment = new SignatureFragment();
+                        signatureFragment.setChallengeResponse(((SignatureMessage) msg.obj).getChallengeResponse());
+                        signatureFragment.setApproveSignatureListener(
+                                v -> {
+                                    synchronized (VAProcessRunnable.lock) {
+                                        VAProcessRunnable.queue.add(new SignatureResponseMessage(0, true));
+                                        VAProcessRunnable.lock.notify();
+                                    }
+                                }
+                        );
+                        Bundle bundle = new Bundle();
+                        bundle.putString("challengeType", challengeType);
+                        signatureFragment.setArguments(bundle);
+                        startFragment(signatureFragment);
+                        break;
+                    case 4:
+                        CameraImage cameraImage = new CameraImage();
+                        cameraImage.setSendButtonListener(
+                                v -> {
+                                    synchronized (VAProcessRunnable.lock) {
+                                        VAProcessRunnable.queue.add(new EvaluateChallengeResponseMessage(true)); //image approved
+                                        VAProcessRunnable.lock.notify();
+                                    }
+                                }
+                        );
+                        startFragment(cameraImage);
+                        break;
+                    case 5:
+                        signatureFragment = new SignatureFragment();
                         signatureFragment.setChallengeResponse(((SignatureMessage) msg.obj).getChallengeResponse());
                         signatureFragment.setApproveSignatureListener(
                                 v -> {

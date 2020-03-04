@@ -1,5 +1,6 @@
 package com.authcoinandroid.module.messaging;
 
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
@@ -29,6 +30,7 @@ public class VAProcessRunnable implements Runnable {
     private final EntityIdentityRecord verifier;
     private final EntityIdentityRecord target;
     private final WalletService walletService;
+    private final Context context;
 
     private MessageHandler messageHandler;
     private HttpRestAuthcoinTransport transporter;
@@ -40,7 +42,8 @@ public class VAProcessRunnable implements Runnable {
             EntityIdentityRecord target,
             HttpRestAuthcoinTransport transporter,
             ChallengeService challengeService,
-            WalletService walletService
+            WalletService walletService,
+            Context context
     ) {
         this.messageHandler = new MessageHandler(mainHandler);
         this.verifier = verifier;
@@ -48,6 +51,7 @@ public class VAProcessRunnable implements Runnable {
         this.transporter = transporter;
         this.challengeService = challengeService;
         this.walletService = walletService;
+        this.context = context;
     }
 
     @Override
@@ -61,7 +65,7 @@ public class VAProcessRunnable implements Runnable {
                 challengeService,
                 walletService
         );
-        Triplet<Pair<ChallengeRecord, ChallengeRecord>, Pair<ChallengeResponseRecord, ChallengeResponseRecord>, Pair<SignatureRecord, SignatureRecord>> resp = t.process(target, verifier);
+        Triplet<Pair<ChallengeRecord, ChallengeRecord>, Pair<ChallengeResponseRecord, ChallengeResponseRecord>, Pair<SignatureRecord, SignatureRecord>> resp = t.process(target, verifier, context);
         messageHandler.send(new UserAuthenticatedMessage(resp.getFirst(), resp.getSecond()), 10);
         Log.i("VAProcessRunnable", "end V&A process. result: " + resp + " " + Thread.currentThread().getName());
     }

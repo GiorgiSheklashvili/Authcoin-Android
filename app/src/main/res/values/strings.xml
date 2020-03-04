@@ -44,4 +44,6 @@
     <string name="has_responded_with">has responded with:</string>
     <string name="invalid">INVALID</string>
     <string name="valid">VALID</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="send_button">Send Photo</string>
 </resources>

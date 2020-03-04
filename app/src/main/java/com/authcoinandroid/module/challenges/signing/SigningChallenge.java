@@ -1,5 +1,7 @@
 package com.authcoinandroid.module.challenges.signing;
 
+import android.content.Context;
+
 import com.authcoinandroid.module.challenges.Challenge;
 
 import java.security.SecureRandom;
@@ -14,7 +16,7 @@ public class SigningChallenge implements Challenge {
     }
 
     @Override
-    public byte[] getContent() {
+    public byte[] getContent(Context context) {
         byte[] bytes = new byte[32];
         SECURE_RANDOM.nextBytes(bytes);
         return bytes;

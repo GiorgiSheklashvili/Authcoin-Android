@@ -99,9 +99,15 @@ public class NewChallengeFragment extends Fragment {
                     @Override
                     public void onNext(EntityIdentityRecord target) {
                         try {
-                            Challenge challenge = Challenges.get(challengeTypeValue);
+                            String[] challengetypeStringArray;
+                            challengetypeStringArray = new String[]{"Sign Content", "MFA Sign Content & Facial recognition"};
+                            if(challengeTypeValue.equals("Sign Content")){
+                                challengetypeStringArray = new String[]{"Sign Content"};
+                            }
+                            for(int i=0; i<challengetypeStringArray.length; i++){
+                            Challenge challenge = Challenges.get(challengetypeStringArray[i]);
                             byte[] crId = Util.generateId();
-                            ChallengeRecord challengeRecord =  new ChallengeRecord(crId, Util.generateId(), challenge.getType(), challenge.getContent(), verifier, target);
+                            ChallengeRecord challengeRecord =  new ChallengeRecord(crId, Util.generateId(), challenge.getType(), challenge.getContent(getContext()), verifier, target);
 
                             ((AuthCoinApplication) getActivity().getApplication())
                                     .getChallengeService()
@@ -126,9 +132,11 @@ public class NewChallengeFragment extends Fragment {
 
                                         }
                                     });
+                            }
                         } catch (Exception e) {
                             AndroidUtil.displayNotification(getContext(), e.getMessage());
                         }
+
                     }
 
                     @Override
