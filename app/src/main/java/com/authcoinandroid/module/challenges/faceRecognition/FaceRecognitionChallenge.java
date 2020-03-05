@@ -10,7 +10,7 @@ import com.authcoinandroid.ui.fragment.authentication.CameraImage;
 public class FaceRecognitionChallenge implements Challenge {
     @Override
     public String getType() {
-        return "Face Recognition";
+        return "MFA with Facial recognition";
     }
 
     @Override

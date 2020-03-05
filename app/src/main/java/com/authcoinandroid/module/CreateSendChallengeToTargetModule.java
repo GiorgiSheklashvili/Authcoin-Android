@@ -46,6 +46,7 @@ class CreateSendChallengeToTargetModule {
     class CreateChallengeForTarget {
 
         private final MessageHandler messageHandler;
+        private int counter = 0;
 
         public CreateChallengeForTarget(MessageHandler messageHandler) {
             this.messageHandler = messageHandler;
@@ -58,7 +59,16 @@ class CreateSendChallengeToTargetModule {
                     (ChallengeTypeMessageResponse) messageHandler.sendAndWaitResponse(req, 1);
 
             //  1. create challenge
-            Challenge challenge = Challenges.get("Sign Content");//resp.getChallengeType()
+            String challengeType = "Sign Content";
+            if(resp.getChallengeType().equals("MFA with Facial recognition") && counter == 0){
+                counter++;
+            }else{
+                if(resp.getChallengeType().equals("MFA with Facial recognition") && counter == 1){
+                    challengeType = "MFA with Facial recognition";
+                    counter = 0;
+                }
+            }
+            Challenge challenge = Challenges.get(challengeType);
             byte[] crId = Util.generateId();
             return new ChallengeRecord(crId, vae.getFirst(), challenge.getType(), challenge.getContent(context), vae.getSecond(), vae.getThird());
         }

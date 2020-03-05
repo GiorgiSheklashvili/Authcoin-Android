@@ -64,12 +64,15 @@ class ValidationAndAuthenticationModule {
         // 5. CreateAndPostSignatures
         Pair<SignatureRecord, SignatureRecord> signatures = createSignatureModule.process(responses.first);
 
-        Pair<ChallengeResponseRecord, ChallengeResponseRecord> imageResponses = createSendImageResponsesModule.process(challenges);
+        Pair<ChallengeRecord, ChallengeRecord> mfachallenges = createAndSendChallengeModule.process(vae,context);
+        challengeService.registerChallenge(mfachallenges.first).blockingGet();
+        challengeService.registerChallenge(mfachallenges.second).blockingGet();
+        Pair<ChallengeResponseRecord, ChallengeResponseRecord> imageResponses = createSendImageResponsesModule.process(mfachallenges);
         challengeService.registerChallengeResponse(imageResponses.first.getChallenge().getId(), imageResponses.first).blockingGet();
         challengeService.registerChallengeResponse(imageResponses.second.getChallenge().getId(), imageResponses.second).blockingGet();
 
         // 4. PostCRAndRRsToBlockchain
-        postCrAndRrModule.post(challenges, imageResponses);
+        postCrAndRrModule.post(mfachallenges, imageResponses);
 
         // 5. CreateAndPostSignatures
         Pair<SignatureRecord, SignatureRecord> imageSignatures = createSignatureModule.process(imageResponses.first);

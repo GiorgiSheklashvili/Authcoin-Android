@@ -100,7 +100,7 @@ public class NewChallengeFragment extends Fragment {
                     public void onNext(EntityIdentityRecord target) {
                         try {
                             String[] challengetypeStringArray;
-                            challengetypeStringArray = new String[]{"Sign Content", "MFA Sign Content & Facial recognition"};
+                            challengetypeStringArray = new String[]{"Sign Content", "MFA with Facial recognition"};
                             if(challengeTypeValue.equals("Sign Content")){
                                 challengetypeStringArray = new String[]{"Sign Content"};
                             }

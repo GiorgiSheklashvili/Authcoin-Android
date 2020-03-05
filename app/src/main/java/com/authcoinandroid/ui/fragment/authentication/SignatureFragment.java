@@ -48,7 +48,7 @@ public class SignatureFragment extends Fragment {
 
         lifespan = (EditText) view.findViewById(R.id.et_lifespan);
         textViewDays = (TextView) view.findViewById(R.id.tv_enter_days);
-        if(challengeType.equals("MFA Sign Content & Facial recognition")){
+        if(challengeType.equals("MFA with Facial recognition")){
             lifespan.setVisibility(View.INVISIBLE);
             textViewDays.setVisibility(View.INVISIBLE);
         }
