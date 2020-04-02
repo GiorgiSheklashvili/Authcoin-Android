@@ -22,7 +22,7 @@ public class SigningChallengeExecutorTest extends AbstractTest {
     public void testExecute() throws Exception {
         EntityIdentityRecord eir = createTargetEir();
         Challenge challenge = Challenges.get("Sign Content");
-        byte[] content = challenge.getContent();
+        byte[] content = challenge.getContent(null);
         byte[] result = executor.execute(content, eir);
         assertNotNull(result);
 

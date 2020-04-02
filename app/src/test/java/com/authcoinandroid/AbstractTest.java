@@ -62,6 +62,6 @@ public abstract class AbstractTest {
         byte[] id = Util.generateId();
         byte[] vaeId = Util.generateId();
         Challenge c = Challenges.get("Sign Content");
-        return new ChallengeRecord(id, vaeId, c.getType(), c.getContent(), verifier, target);
+        return new ChallengeRecord(id, vaeId, c.getType(), c.getContent(null), verifier, target);
     }
 }

@@ -1,5 +1,7 @@
 package com.authcoinandroid.module.challenges;
 
+import android.content.Context;
+
 import com.authcoinandroid.AbstractTest;
 import com.authcoinandroid.model.EntityIdentityRecord;
 
@@ -21,7 +23,7 @@ public class ChallengesTest extends AbstractTest {
     @Test
     public void testGetAllTypes() throws Exception {
         Set<String> types = Challenges.getAllTypes();
-        assertEquals(1, types.size());
+        assertEquals(2, types.size());
     }
 
     @Test
@@ -36,13 +38,13 @@ public class ChallengesTest extends AbstractTest {
                     }
 
                     @Override
-                    public byte[] getContent() {
+                    public byte[] getContent(Context context) {
                         return new byte[0];
                     }
                 };
             }
         }, null, null);
-        assertEquals(2, Challenges.getAllTypes().size());
+        assertEquals(3, Challenges.getAllTypes().size());
     }
 
     @Test
@@ -51,7 +53,7 @@ public class ChallengesTest extends AbstractTest {
 
         Challenge challenge = Challenges.get(CHALLENGE_NAME_SIGN_CONTENT);
         assertNotNull(challenge);
-        byte[] content = challenge.getContent();
+        byte[] content = challenge.getContent(null);
         assertNotNull(content);
         assertEquals("Sign Content", challenge.getType());
         assertTrue(content.length > 0);

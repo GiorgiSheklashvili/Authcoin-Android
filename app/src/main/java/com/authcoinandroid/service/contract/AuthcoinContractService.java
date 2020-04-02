@@ -87,7 +87,6 @@ public class AuthcoinContractService {
             Log.d("ACSerUnspent", singletonList(key.toAddress(QtumTestNetParams.get()).toBase58()).get(i));
         }
         return blockChainService.getUnspentOutput(singletonList(key.toAddress(QtumTestNetParams.get()).toBase58()));
-
     }
 
     public Observable<Transaction> getTransaction(String transaction) {
@@ -108,7 +107,6 @@ public class AuthcoinContractService {
     }
 
     private Observable<SendRawTransactionResponse> sendRawTransaction(DeterministicKey key, Script script) {
-        Log.d("BSSndRwTrnsctnDt", "todo");
         return getUnspentOutputs(key).switchMap(
                 unspentOutput -> blockChainService.sendRawTransaction(
                         new SendRawTransactionRequest(resolveTransaction(key, script, unspentOutput), 1)
@@ -121,9 +119,6 @@ public class AuthcoinContractService {
 
     private Observable<ContractResponse> callContract(String contractAddress, ContractRequest contractRequest) {
         Log.d("ACSerContractAddress", contractAddress);
-        for (int i=0; i<contractRequest.getHashes().length; i++){
-            Log.d("ACSerContractRequest", contractRequest.getHashes()[i]);
-        }
         return blockChainService.callContract(contractAddress, contractRequest);
     }
 }

@@ -35,16 +35,12 @@ public class BlockChainService implements BlockChainApi {
     @Override
     public Observable<ContractResponse> callContract(String contractAddress, ContractRequest contractRequest) {
         Log.d("BSerContractAddress", contractAddress);
-        for (int i=0; i<contractRequest.getHashes().length; i++){
-            Log.d("BSerContractRequest", contractRequest.getHashes()[i]);
-        }
         return blockChainApi.callContract(contractAddress, contractRequest);
     }
 
     @Override
     public Observable<SendRawTransactionResponse> sendRawTransaction(SendRawTransactionRequest sendRawTransactionRequest) {
         Log.d("BSSndRwTrnsctnDt", sendRawTransactionRequest.getData());
-        Log.d("BSSndRwTrnsctnhighFee", sendRawTransactionRequest.getAllowHighFee().toString());
         return blockChainApi.sendRawTransaction(sendRawTransactionRequest);
     }
 
