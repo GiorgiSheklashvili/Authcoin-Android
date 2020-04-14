@@ -13,9 +13,7 @@ public final class AuthCoinNetParams {
     }
 
     public static String getUrl() {
-//        return "http://172.17.199.17:5931/";
 //        return "https://walletapi.qtum.org/";
-//        return "http://192.168.0.12:5931/api/";
         return "https://testnet-walletapi.qtum.org/";
     }
 }
