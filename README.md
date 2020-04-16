@@ -52,7 +52,7 @@ The provided URLs need smart contract address which they use as a destination fo
 
 In our case the contract which is deployed on testnet has the following address: eb95c662869311bde0cc6cff0a178ea99f7eff22
 ## How to add challenge types
-For adding Multi-factor authentication in the project, one has to add additional two additional cases in switch statement in [AuthenticationActivity.java](app/src/main/java/com/authcoinandroid/ui/activity/AuthenticationActivity.java)
+For adding Multi-factor authentication in the project, one has to add two additional cases in switch statement in [AuthenticationActivity.java](app/src/main/java/com/authcoinandroid/ui/activity/AuthenticationActivity.java)
 
 https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/5389237939581932e36a88bd00c7bac84996619f/app/src/main/java/com/authcoinandroid/ui/activity/AuthenticationActivity.java#L86-L170
 
