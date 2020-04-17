@@ -37,9 +37,25 @@ This call is specific for Android platform, so that's why URL should be accessed
 Both Spring project and Android app are communicating with smart contract through HTTP calls, which have to provided.
 
 [Demo Server](https://github.com/GiorgiSheklashvili/Authcoin-demo-server/blob/748696a889387c884401146dd8a4712e9dc1ed65/src/main/java/com/authcoin/server/demo/services/blockchain/BlockChainService.java#L19)
+```
+ public BlockChainService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://testnet-walletapi.qtum.org/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        blockChainApi = retrofit.create(BlockChainApi.class);
+    }
+```
 
 [Android application](https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/31822307da7927a887157721ccda0f4e3937015f/app/src/main/java/com/authcoinandroid/util/AuthCoinNetParams.java#L17)
 
+```
+ public static String getUrl() {
+//        return "https://walletapi.qtum.org/";
+        return "https://testnet-walletapi.qtum.org/";
+    }
+ ```
 The following URL is for endpoints when the smart contract is deployed on testnet: https://testnet-walletapi.qtum.org/
 
 And this URL is for mainnet: https://walletapi.qtum.org/
@@ -49,13 +65,96 @@ The provided URLs need smart contract address which they use as a destination fo
 [Demo Server](https://github.com/GiorgiSheklashvili/Authcoin-demo-server/blob/748696a889387c884401146dd8a4712e9dc1ed65/src/main/java/com/authcoin/server/demo/services/blockchain/contract/AuthcoinContractParams.java#L7)
 
 [Android application](https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/31822307da7927a887157721ccda0f4e3937015f/app/src/main/java/com/authcoinandroid/service/contract/AuthcoinContractParams.java#L6)
-
-In our case the contract which is deployed on testnet has the following address: eb95c662869311bde0cc6cff0a178ea99f7eff22
+```
+static final String AUTHCOIN_CONTRACT_ADDRESS = "eb95c662869311bde0cc6cff0a178ea99f7eff22";
+```
+In our case the contract which is deployed on testnet has the following address: `eb95c662869311bde0cc6cff0a178ea99f7eff22`
 ## How to add challenge types
 ### Flow of the Authentication
-For adding Multi-factor authentication in the project, one has to add two additional cases in switch statement in [AuthenticationActivity.java](app/src/main/java/com/authcoinandroid/ui/activity/AuthenticationActivity.java)
+For adding Multi-factor authentication in the project, one has to add two additional cases in switch statement in 
 
-https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/5389237939581932e36a88bd00c7bac84996619f/app/src/main/java/com/authcoinandroid/ui/activity/AuthenticationActivity.java#L86-L170
+[AuthenticationActivity.java](https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/5389237939581932e36a88bd00c7bac84996619f/app/src/main/java/com/authcoinandroid/ui/activity/AuthenticationActivity.java#L86-L170)
+
+```
+switch (msg.what) {
+                    case 1:
+                        // challenge type
+                        ChallengeTypeSelectorFragment selectionFragment = new ChallengeTypeSelectorFragment();
+                        selectionFragment.setSelectChallengeButtonListener(
+                                v -> {
+                                    synchronized (VAProcessRunnable.lock) {
+                                        VAProcessRunnable.queue.add(new ChallengeTypeMessageResponse(selectionFragment.getSelectedChallenge()));
+                                        VAProcessRunnable.lock.notify();
+                                        challengeType = selectionFragment.getSelectedChallenge();
+                                    }
+                                }
+                        );
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.container, selectionFragment).commit();
+                        break;
+
+                    case 2:
+                        // evaluate target's challenge sent to verifier
+                        EvaluateChallengeFragment evaluateChallengeFragment = new EvaluateChallengeFragment();
+                        evaluateChallengeFragment.setChallengeRecord(((EvaluateChallengeMessage) msg.obj).getChallenge());
+                        evaluateChallengeFragment.setApproveButtonListener(
+                                v -> {
+                                    synchronized (VAProcessRunnable.lock) {
+                                        VAProcessRunnable.queue.add(new EvaluateChallengeResponseMessage(evaluateChallengeFragment.isApproved()));
+                                        VAProcessRunnable.lock.notify();
+                                    }
+                                }
+                        );
+                        startFragment(evaluateChallengeFragment);
+                        break;
+                    case 3:
+                        SignatureFragment signatureFragment = new SignatureFragment();
+                        signatureFragment.setChallengeResponse(((SignatureMessage) msg.obj).getChallengeResponse());
+                        signatureFragment.setApproveSignatureListener(
+                                v -> {
+                                    synchronized (VAProcessRunnable.lock) {
+                                        VAProcessRunnable.queue.add(new SignatureResponseMessage(0, true));
+                                        VAProcessRunnable.lock.notify();
+                                    }
+                                }
+                        );
+                        Bundle bundle = new Bundle();
+                        bundle.putString("challengeType", challengeType);
+                        signatureFragment.setArguments(bundle);
+                        startFragment(signatureFragment);
+                        break;
+                    case 4:
+                        CameraImage cameraImage = new CameraImage();
+                        cameraImage.setSendButtonListener(
+                                v -> {
+                                    synchronized (VAProcessRunnable.lock) {
+                                        VAProcessRunnable.queue.add(new EvaluateChallengeResponseMessage(true)); //image approved
+                                        VAProcessRunnable.lock.notify();
+                                    }
+                                }
+                        );
+                        startFragment(cameraImage);
+                        break;
+                    case 5:
+                        signatureFragment = new SignatureFragment();
+                        signatureFragment.setChallengeResponse(((SignatureMessage) msg.obj).getChallengeResponse());
+                        signatureFragment.setApproveSignatureListener(
+                                v -> {
+                                    synchronized (VAProcessRunnable.lock) {
+                                        VAProcessRunnable.queue.add(new SignatureResponseMessage(signatureFragment.getLifespan(), true));
+                                        VAProcessRunnable.lock.notify();
+                                    }
+                                }
+                        );
+                        startFragment(signatureFragment);
+                        break;
+                    case 10:
+                        AuthenticationSuccessfulFragment asf = new AuthenticationSuccessfulFragment();
+                        asf.setResult(((UserAuthenticatedMessage) msg.obj));
+                        startFragment(asf);
+                        break;
+                }
+```
 
 In case 1 of the switch statement, the identity which we want to use for authentication is chosen, and the listener is set for select challenge button. These listeners which are also used in other switch cases provides synchronized access to Validation and Authentication Process runnable. We add [AuthcoinMessage.java](app/src/main/java/com/authcoinandroid/module/messaging/AuthcoinMessage.java) in the queue. This messages in this queue is executed step by step by [MessageHandler.java](app/src/main/java/com/authcoinandroid/module/messaging/MessageHandler.java) and response is sent to main thread back to AuthenticationActivity where switch case receives them with a different case number. 
 
