@@ -75,3 +75,10 @@ After responding to server, ValidationAndAuthenticationModule.java registers cha
 [ChallengeRecordForVerifier](
 https://github.com/GiorgiSheklashvili/Authcoin-demo-server/blob/748696a889387c884401146dd8a4712e9dc1ed65/src/main/java/com/authcoin/server/demo/controllers/authentication/AuthenticationController.java#L85) and [ChallengeRecordForTarget](
 https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/d691380b1ab1ad178210a14e5d4bfc174dfd7668/app/src/main/java/com/authcoinandroid/module/CreateSendChallengeToTargetModule.java#L73).
+
+
+Last step of MFA in ValidationAndAuthenticationModule class is to create and post signatures for captured image - [CreateSignaturesFromImageRRModule](
+https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/d691380b1ab1ad178210a14e5d4bfc174dfd7668/app/src/main/java/com/authcoinandroid/module/CreateSignaturesFromImageRRModule.java#L36). It sends the message with number 5 to switch case of AuthenticationActivity, which lets the user sign the response and write the number of days to trust the target. Then, VerifierSignature(Verifier - the user of Android application), is sent to target and targetSignature is returned as a result. Finally, targetSignature and verifierSignature as a pair gets posted on blockchain.
+
+
+Finally, case 10 is called for the switch statement `messageHandler.send(new UserAuthenticatedMessage(resp.getFirst(), resp.getSecond()), 10)`, which displays authentication result and also displays Verifiers and Targets challenge records.
