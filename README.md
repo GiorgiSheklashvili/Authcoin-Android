@@ -66,3 +66,12 @@ In the [Challenges.java](app/src/main/java/com/authcoinandroid/module/challenges
 
 When adding new factor of Authentication, Naturally new challengetype enum should be added to [ChallengeType.java](app/src/main/java/com/authcoinandroid/module/challenges/ChallengeType.java) class. 
 [FaceRecognitionChallenge.java](app/src/main/java/com/authcoinandroid/module/challenges/faceRecognition/FaceRecognitionChallenge.java) class represents the actual new factor which is added to "sign content" factor, and they together create two-factor authentication. getContent method gets the image which was captured by [CameraImage.java](app/src/main/java/com/authcoinandroid/ui/fragment/authentication/CameraImage.java) fragment, and convert it to byte array, which is later sent to smart contract method `registerChallengeRecord` [Authcoin.sol](https://github.com/GiorgiSheklashvili/Authcoin-truffle/blob/9e6db9e7aeace309b9ad56da585c011e548ef726/contracts/AuthCoin.sol#L105)
+
+
+Afterwards, the returned ChallengeResponseRecord from [CreateImageResponseModule.java](app/src/main/java/com/authcoinandroid/module/CreateImageResponseModule.java) is used in [CreateSendImageResponsesModule.java](app/src/main/java/com/authcoinandroid/module/CreateSendImageResponsesModule.java) to send response to target server 
+[CreateSendImageResponsesModule.java](https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/d691380b1ab1ad178210a14e5d4bfc174dfd7668/app/src/main/java/com/authcoinandroid/module/CreateSendImageResponsesModule.java#L27). 
+
+After responding to server, ValidationAndAuthenticationModule.java registers challenges in challengeRepository and also posts them on blockchain. These challenges are verifierChallenge sent from Sprint project 
+[ChallengeRecordForVerifier](
+https://github.com/GiorgiSheklashvili/Authcoin-demo-server/blob/748696a889387c884401146dd8a4712e9dc1ed65/src/main/java/com/authcoin/server/demo/controllers/authentication/AuthenticationController.java#L85) and [ChallengeRecordForTarget](
+https://github.com/GiorgiSheklashvili/Authcoin-Android/blob/d691380b1ab1ad178210a14e5d4bfc174dfd7668/app/src/main/java/com/authcoinandroid/module/CreateSendChallengeToTargetModule.java#L73).
