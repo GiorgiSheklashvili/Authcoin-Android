@@ -1,4 +1,4 @@
-# Authcoin-Android
+# Implementation of Multi-Factor Authentication in Authcoin-Android
 There are several steps of configure before running application:
 1. Spring project API should be accessible from phone. Since phone cannot access the API if the project is running on computer, the spring project
 should be deployed. We have it deployed on Heroku.
