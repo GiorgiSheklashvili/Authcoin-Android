@@ -11,8 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+
 import com.authcoinandroid.R;
 import com.authcoinandroid.model.ChallengeRecord;
 import com.authcoinandroid.model.EntityIdentityRecord;
@@ -23,6 +29,7 @@ import com.authcoinandroid.ui.adapter.ChallengeAdapter;
 import com.authcoinandroid.util.AndroidUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.authcoinandroid.model.AssetBlockChainStatus.MINED;
@@ -101,7 +108,7 @@ public class ChallengeFragment extends Fragment {
                 ChallengeRecord challengeRecord = challengeRecords.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putByteArray("challengeRecord", challengeRecord.getId());
-
+                Toast.makeText(getContext(), Arrays.toString(challengeRecord.getVaeId()),Toast.LENGTH_SHORT).show();
                 if (getContext() instanceof MainActivity) {
                     // TODO Open a new Fragment (perhaps separate ones for sent/received challenges?)
                     // ((MainActivity) getContext()).applyFullFragmentWithBundle(/* CrFragment */, bundle);

@@ -73,10 +73,10 @@ class ValidationAndAuthenticationModule {
         challengeService.registerChallengeResponse(imageResponses.first.getChallenge().getId(), imageResponses.first).blockingGet();
         challengeService.registerChallengeResponse(imageResponses.second.getChallenge().getId(), imageResponses.second).blockingGet();
 
-        // 4. PostCRAndRRsToBlockchain
+        // 6. PostCRAndRRsToBlockchain
         postCrAndRrModule.post(mfachallenges, imageResponses);
 
-        // 5. CreateAndPostSignatures
+        // 7. CreateAndPostSignatures
         Pair<SignatureRecord, SignatureRecord> imageSignatures = createSignaturesFromImageRRModule.process(imageResponses.first);
 
 //         challengeService.registerSignatureRecord(signatures.first.getChallengeResponse().getChallenge().getId(), signatures.first).blockingGet();
